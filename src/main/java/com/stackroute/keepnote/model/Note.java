@@ -2,6 +2,14 @@ package com.stackroute.keepnote.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /*
  * The class "Note" will be acting as the data model for the Note Table in the database. 
  * Please note that this class is annotated with @Entity annotation. 
@@ -9,6 +17,8 @@ import java.util.Date;
  * If it finds any, then it will begin the process of looking through that particular 
  * Java object to recreate it as a table in your database.
  */
+@Entity
+@Table(name="Note")
 public class Note {
 	/*
 	 * This class should have eight fields
@@ -20,56 +30,121 @@ public class Note {
 	 * accepted from the user but should be always initialized with the system date.
 	 * annotate category and reminder field with @ManyToOne.
 	 */
+	@Id
+	@Column(name="note_id")
+	private int noteId;
+	
+	@Column(name="note_title")
+	private String noteTitle;
+	
+	@Column(name="note_content")
+	private String noteContent;
+	
+	@Column(name="note_status")
+	private String noteStatus;
+	
+	@Column(name="note_creation_date")
+	private Date createdAt;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "category_id")
+	private Category category;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "reminder_id")
+	private Reminder reminder;
+	
+	@Column(name="note_creator")
+	private String createdBy;
 
 	public Note() {
-
+		// Default Constructor
 	}
 
-	public Note(int Int, String string, String string1, String string2, Date date, Category category, Reminder reminder,
-			String string3) {
-
+	public Note(int noteId, String noteTitle, String noteContent, String noteStatus, Date date, Category category, Reminder reminder,
+			String createdBy) {
+		this.noteId = noteId;
+		this.noteTitle = noteTitle;
+		this.noteContent = noteContent;
+		this.noteStatus = noteStatus;
+		this.createdAt = date;
+		this.category = category;
+		this.reminder = reminder;
+		this.createdBy = createdBy;
 	}
 
 	public int getNoteId() {
-		return 0;
+		return this.noteId;
 	}
 
-	public void setNoteId(int Int) {
-
+	public void setNoteId(int noteId) {
+		this.noteId = noteId;
 	}
 
 	public String getNoteTitle() {
-		return null;
+		return this.noteTitle;
 	}
 
-	public void setNoteTitle(String string) {
-
+	public void setNoteTitle(String noteTitle) {
+		this.noteTitle = noteTitle;
 	}
 
 	public String getNoteContent() {
-		return null;
+		return this.noteContent;
 	}
 
-	public void setNoteContent(String string) {
-
+	public void setNoteContent(String noteContent) {
+		this.noteContent = noteContent;
 	}
 
-	public void setNoteStatus(String string) {
-
+	public String getNoteStatus() {
+		return this.noteStatus;
+	}
+	
+	public void setNoteStatus(String noteStatus) {
+		this.noteStatus = noteStatus;
 	}
 
+	public Date getNoteCreatedAt() {
+		return this.createdAt;
+	}
+	
 	public void setNoteCreatedAt(Date date) {
+		this.createdAt = date;
+	}
+	
+	public String getCreatedBy() {
+		return this.createdBy;
 	}
 
-	public void setCreatedBy(String string) {
-
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
+	public Reminder getReminder() {
+		return this.reminder;
+	}
+	
 	public void setReminder(Reminder reminder) {
-
+		this.reminder = reminder;
+	}
+	
+	public Category getCategory() {
+		return this.category;
 	}
 
 	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return "noteId : "+getNoteId()+" "
+				+"noteTitle : "+getNoteTitle()+" "
+				+"noteContent : "+getNoteContent()+" "
+				+"noteStatus : "+getNoteStatus()+" "
+				+"createdAt : "+getNoteCreatedAt()+" "
+				+"createdBy : "+getCreatedBy();
 	}
 
 }
